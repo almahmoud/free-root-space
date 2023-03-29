@@ -1,0 +1,375 @@
+name: 'Free root space'
+description: 'Frees root space by removing pre-installed software. Eg: more space for Docker build'
+inputs:
+  verbose:
+    description: 'Print a trace of commands (`set -x`)'
+    required: false
+    default: 'true'
+  remove-dotnet:
+    description: 'Removes /usr/share/dotnet /home/runner/.dotnet /home/runneradmin/.dotnet /etc/skel/.dotnet'
+    required: false
+    default: 'true'
+  remove-android:
+    description: 'Removes /usr/local/lib/android'
+    required: false
+    default: 'true'
+  remove-haskell:
+    description: 'Removes /opt/ghc /usr/local/.ghcup'
+    required: false
+    default: 'true'
+  remove-hostedtoolcache:
+    description: 'Removes /opt/hostedtoolcache/*'
+    required: false
+    default: 'true'
+  remove-google-sdk:
+    description: 'Removes /usr/lib/google-cloud-sdk'
+    required: false
+    default: 'true'
+  remove-firefox:
+    description: 'Removes /usr/lib/firefox'
+    required: false
+    default: 'true'
+  remove-powershell:
+    description: 'Removes /opt/microsoft/powershell'
+    required: false
+    default: 'true'
+  remove-graalvm:
+    description: 'Removes /usr/local/graalvm'
+    required: false
+    default: 'true'
+  remove-rustup:
+    description: 'Removes /etc/skel/.rustup /home/runner/.rustup /home/runneradmin/.rustup'
+    required: false
+    default: 'true'
+  remove-llvm-12:
+    description: 'Removes /usr/lib/llvm-12'
+    required: false
+    default: 'true'
+  remove-llvm-13:
+    description: 'Removes /usr/lib/llvm-13'
+    required: false
+    default: 'true'
+  remove-llvm-14:
+    description: 'Removes /usr/lib/llvm-14'
+    required: false
+    default: 'true'
+  remove-julia:
+    description: 'Removes /usr/local/julia*'
+    required: false
+    default: 'true'
+  remove-microsoft:
+    description: 'Removes /opt/microsoft'
+    required: false
+    default: 'true'
+  remove-azure-cli:
+    description: 'Removes /opt/az /usr/src/*-azure-* /usr/share/az_9.3.0'
+    required: false
+    default: 'true'
+  remove-linuxbrew:
+    description: 'Removes /home/linuxbrew'
+    required: false
+    default: 'true'
+  remove-pipx:
+    description: 'Removes /opt/pipx'
+    required: false
+    default: 'true'
+  remove-google:
+    description: 'Removes /opt/google'
+    required: false
+    default: 'true'
+  remove-gcc:
+    description: 'Removes /usr/lib/gcc'
+    required: false
+    default: 'true'
+  remove-mono:
+    description: 'Removes /usr/lib/mono'
+    required: false
+    default: 'true'
+  remove-aws-cli:
+    description: 'Removes /usr/local/aws-*'
+    required: false
+    default: 'true'
+  remove-sql:
+    description: 'Removes /var/lib/mysql /usr/local/sqlpackage /var/lib/postgresql /usr/lib/postgresql'
+    required: false
+    default: 'true'
+  remove-gems:
+    description: 'Removes /var/lib/gems'
+    required: false
+    default: 'true'
+  remove-swift:
+    description: 'Removes /usr/share/swift'
+    required: false
+    default: 'true'
+  remove-miniconda:
+    description: 'Removes /usr/share/miniconda'
+    required: false
+    default: 'true'
+  remove-cargo:
+    description: 'Removes /home/runner/.cargo /etc/skel/.cargo /home/runneradmin/.cargo'
+    required: false
+    default: 'true'
+  remove-gradle:
+    description: 'Removes /usr/share/gradle*'
+    required: false
+    default: 'true'
+  remove-n:
+    description: 'Removes /usr/local/n'
+    required: false
+    default: 'true'
+  remove-cache:
+    description: 'Removes /var/cache'
+    required: false
+    default: 'true'
+  remove-sbt:
+    description: 'Removes /usr/share/sbt /root/.sbt'
+    required: false
+    default: 'true'
+  remove-mecab:
+    description: 'Removes /var/lib/mecab'
+    required: false
+    default: 'true'
+  remove-java:
+    description: 'Removes /usr/share/java /usr/lib/jvm'
+    required: false
+    default: 'true'
+  remove-fonts:
+    description: 'Removes /usr/share/fonts'
+    required: false
+    default: 'true'
+  remove-vim:
+    description: 'Removes /usr/share/vim'
+    required: false
+    default: 'true'
+  remove-icons:
+    description: 'Removes /usr/share/icons'
+    required: false
+    default: 'true'
+  remove-c++:
+    description: 'Removes /usr/include/c++'
+    required: false
+    default: 'true'
+  remove-mecab:
+    description: 'Removes /usr/share/mecab'
+    required: false
+    default: 'true'
+  remove-ri:
+    description: 'Removes /usr/share/ri'
+    required: false
+    default: 'true'
+  remove-R:
+    description: 'Removes /usr/lib/R'
+    required: false
+    default: 'true'
+  remove-kotlinc:
+    description: 'Removes /usr/share/kotlinc'
+    required: false
+    default: 'true'
+  remove-man-docs:
+    description: 'Removes /usr/share/doc /usr/share/man'
+    required: false
+    default: 'true'
+runs:
+  using: "composite"
+  steps:
+    - shell: bash
+      run: |
+        if [[ ${{ inputs.verbose }} == 'true' ]]; then
+          set -x
+        fi
+        echo "Disk state before removing"
+        df -h
+        if [[ ${{ inputs.remove-dotnet }} == 'true' ]]; then
+          du -h -d 1 /usr/share/dotnet
+          sudo rm -rf /usr/share/dotnet
+          du -h -d 1 /home/runner/.dotnet
+          sudo rm -rf /home/runner/.dotnet
+          du -h -d 1 /home/runneradmin/.dotnet
+          sudo rm -rf /home/runneradmin/.dotnet
+          du -h -d 1 /etc/skel/.dotnet
+          sudo rm -rf /etc/skel/.dotnet
+        fi
+        if [[ ${{ inputs.remove-android }} == 'true' ]]; then
+          du -h -d 1 /usr/local/lib/android
+          sudo rm -rf /usr/local/lib/android
+        fi
+        if [[ ${{ inputs.remove-haskell }} == 'true' ]]; then
+          du -h -d 1 /opt/ghc
+          sudo rm -rf /opt/ghc
+          du -h -d 1 /usr/local/.ghcup
+          sudo rm -rf /usr/local/.ghcup
+        fi
+        if [[ ${{ inputs.remove-hostedtoolcache }} == 'true' ]]; then
+          du -h -d 1 /opt/hostedtoolcache/*
+          sudo rm -rf /opt/hostedtoolcache/*
+        fi
+        if [[ ${{ inputs.remove-google-sdk }} == 'true' ]]; then
+          du -h -d 1 /usr/lib/google-cloud-sdk
+          sudo rm -rf /usr/lib/google-cloud-sdk
+        fi
+        if [[ ${{ inputs.remove-firefox }} == 'true' ]]; then
+          du -h -d 1 /usr/lib/firefox
+          sudo rm -rf /usr/lib/firefox
+        fi
+        if [[ ${{ inputs.remove-powershell }} == 'true' ]]; then
+          du -h -d 1 /opt/microsoft/powershell
+          sudo rm -rf /opt/microsoft/powershell
+        fi
+        if [[ ${{ inputs.remove-graalvm }} == 'true' ]]; then
+          du -h -d 1 /usr/local/graalvm
+          sudo rm -rf /usr/local/graalvm
+        fi
+        if [[ ${{ inputs.remove-rustup }} == 'true' ]]; then
+          du -h -d 1 /etc/skel/.rustup /home/runner/.rustup /home/runneradmin/.rustup
+          sudo rm -rf /etc/skel/.rustup /home/runner/.rustup /home/runneradmin/.rustup
+        fi
+        if [[ ${{ inputs.remove-llvm-12 }} == 'true' ]]; then
+          du -h -d 1 /usr/lib/llvm-12
+          sudo rm -rf /usr/lib/llvm-12
+        fi
+        if [[ ${{ inputs.remove-llvm-13 }} == 'true' ]]; then
+          du -h -d 1 /usr/lib/llvm-13
+          sudo rm -rf /usr/lib/llvm-13
+        fi
+        if [[ ${{ inputs.remove-llvm-14 }} == 'true' ]]; then
+          du -h -d 1 /usr/lib/llvm-14
+          sudo rm -rf /usr/lib/llvm-14
+        fi
+        if [[ ${{ inputs.remove-julia }} == 'true' ]]; then
+          du -h -d 1 /usr/local/julia*
+          sudo rm -rf /usr/local/julia*
+        fi
+        if [[ ${{ inputs.remove-microsoft }} == 'true' ]]; then
+          du -h -d 1 /opt/microsoft
+          sudo rm -rf /opt/microsoft
+        fi
+        if [[ ${{ inputs.remove-azure-cli }} == 'true' ]]; then
+          du -h -d 1 /opt/az
+          sudo rm -rf /opt/az
+          du -h -d 1 /usr/src/*-azure-*
+          sudo rm -rf /usr/src/*-azure-*
+          du -h -d 1 /usr/share/az_9.3.0
+          sudo rm -rf /usr/share/az_9.3.0
+        fi
+        if [[ ${{ inputs.remove-linuxbrew }} == 'true' ]]; then
+          du -h -d 1 /home/linuxbrew
+          sudo rm -rf /home/linuxbrew
+        fi
+        if [[ ${{ inputs.remove-pipx }} == 'true' ]]; then
+          du -h -d 1 /opt/pipx
+          sudo rm -rf /opt/pipx
+        fi
+        if [[ ${{ inputs.remove-google }} == 'true' ]]; then
+          du -h -d 1 /opt/google
+          sudo rm -rf /opt/google
+        fi
+        if [[ ${{ inputs.remove-gcc }} == 'true' ]]; then
+          du -h -d 1 /usr/lib/gcc
+          sudo rm -rf /usr/lib/gcc
+        fi
+        if [[ ${{ inputs.remove-mono }} == 'true' ]]; then
+          du -h -d 1 /usr/lib/mono
+          sudo rm -rf /usr/lib/mono
+        fi
+        if [[ ${{ inputs.remove-aws-cli }} == 'true' ]]; then
+          du -h -d 1 /usr/local/aws-*
+          sudo rm -rf /usr/local/aws-*
+        fi
+        if [[ ${{ inputs.remove-sql }} == 'true' ]]; then
+          du -h -d 1 /var/lib/mysql
+          sudo rm -rf /var/lib/mysql
+          du -h -d 1 /usr/local/sqlpackage
+          sudo rm -rf /usr/local/sqlpackage
+          du -h -d 1 /var/lib/postgresql
+          sudo rm -rf /var/lib/postgresql
+          du -h -d 1 /usr/lib/postgresql
+          sudo rm -rf /usr/lib/postgresql
+        fi
+        if [[ ${{ inputs.remove-gems }} == 'true' ]]; then
+          du -h -d 1 /var/lib/gems
+          sudo rm -rf /var/lib/gems
+        fi
+        if [[ ${{ inputs.remove-swift }} == 'true' ]]; then
+          du -h -d 1 /usr/share/swift
+          sudo rm -rf /usr/share/swift
+        fi
+        if [[ ${{ inputs.remove-miniconda }} == 'true' ]]; then
+          du -h -d 1 /usr/share/miniconda
+          sudo rm -rf /usr/share/miniconda
+        fi
+        if [[ ${{ inputs.remove-cargo }} == 'true' ]]; then
+          du -h -d 1 /home/runner/.cargo
+          sudo rm -rf /home/runner/.cargo
+          du -h -d 1 /etc/skel/.cargo
+          sudo rm -rf /etc/skel/.cargo
+          du -h -d 1 /home/runneradmin/.cargo
+          sudo rm -rf /home/runneradmin/.cargo
+        fi
+        if [[ ${{ inputs.remove-gradle }} == 'true' ]]; then
+          du -h -d 1 /usr/share/gradle*
+          sudo rm -rf /usr/share/gradle*
+        fi
+        if [[ ${{ inputs.remove-n }} == 'true' ]]; then
+          du -h -d 1 /usr/local/n
+          sudo rm -rf /usr/local/n
+        fi
+        if [[ ${{ inputs.remove-cache }} == 'true' ]]; then
+          du -h -d 1 /var/cache
+          sudo rm -rf /var/cache
+        fi
+        if [[ ${{ inputs.remove-sbt }} == 'true' ]]; then
+          du -h -d 1 /usr/share/sbt
+          sudo rm -rf /usr/share/sbt
+          du -h -d 1 /root/.sbt
+          sudo rm -rf /root/.sbt
+        fi
+        if [[ ${{ inputs.remove-mecab }} == 'true' ]]; then
+          du -h -d 1 /var/lib/mecab
+          sudo rm -rf /var/lib/mecab
+        fi
+        if [[ ${{ inputs.remove-java }} == 'true' ]]; then
+          du -h -d 1 /usr/share/java
+          sudo rm -rf /usr/share/java
+          du -h -d 1 /usr/lib/jvm
+          sudo rm -rf /usr/lib/jvm
+        fi
+        if [[ ${{ inputs.remove-fonts }} == 'true' ]]; then
+          du -h -d 1 /usr/share/fonts
+          sudo rm -rf /usr/share/fonts
+        fi
+        if [[ ${{ inputs.remove-vim }} == 'true' ]]; then
+          du -h -d 1 /usr/share/vim
+          sudo rm -rf /usr/share/vim
+        fi
+        if [[ ${{ inputs.remove-icons }} == 'true' ]]; then
+          du -h -d 1 /usr/share/icons
+          sudo rm -rf /usr/share/icons
+        fi
+        if [[ ${{ inputs.remove-c++ }} == 'true' ]]; then
+          du -h -d 1 /usr/include/c++
+          sudo rm -rf /usr/include/c++
+        fi
+        if [[ ${{ inputs.remove-mecab }} == 'true' ]]; then
+          du -h -d 1 /usr/share/mecab
+          sudo rm -rf /usr/share/mecab
+        fi
+        if [[ ${{ inputs.remove-ri }} == 'true' ]]; then
+          du -h -d 1 /usr/share/ri
+          sudo rm -rf /usr/share/ri
+        fi
+        if [[ ${{ inputs.remove-R }} == 'true' ]]; then
+          du -h -d 1 /usr/lib/R
+          sudo rm -rf /usr/lib/R
+        fi
+        if [[ ${{ inputs.remove-kotlinc }} == 'true' ]]; then
+          du -h -d 1 /usr/share/kotlinc
+          sudo rm -rf /usr/share/kotlinc
+        fi
+        if [[ ${{ inputs.remove-man-docs }} == 'true' ]]; then
+          du -h -d 1 /usr/share/doc
+          sudo rm -rf /usr/share/doc
+          du -h -d 1 /usr/share/man
+          sudo rm -rf /usr/share/man
+        fi
+        echo "Resulting Disk state"
+        df -h
