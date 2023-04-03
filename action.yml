@@ -126,7 +126,7 @@ inputs:
     required: false
     default: 'true'
   remove-mecab:
-    description: 'Removes /var/lib/mecab'
+    description: 'Removes /var/lib/mecab /usr/share/mecab'
     required: false
     default: 'true'
   remove-java:
