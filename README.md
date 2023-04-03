@@ -1,7 +1,7 @@
 # Free Root Space on GitHub Linux Runners
 
 ## Background
-This action removes pre-installed software on Linux GitHub runners to free up to over 70Gb of root space. This action was particularly made for the purpose of freeing up space for Docker build steps in workflows that do not otherwise require any pre-installed software. The list was created manually by examining the output of `sudo du --max-depth=4 / | sort -n` around March 2023.
+This action removes pre-installed software on Linux GitHub runners to free up to 72Gb of root space (as of March 2023). This action was particularly made for the purpose of freeing up space for Docker build steps in workflows that do not otherwise require any pre-installed software. The list was created manually by examining the output of `sudo du --max-depth=4 / | sort -n` around March 2023.
 
 This action is inspired by and can be used together with the [easimon/maximize-build-space action](https://github.com/easimon/maximize-build-space), which can notably create a directory with additional space by virtually mounting temp and swap space.
 
