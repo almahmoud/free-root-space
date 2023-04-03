@@ -29,7 +29,7 @@ For example, the below configuration will leave the .NET suite.
         uses: almahmoud/free-root-space@main
         with:
           verbose: true
-          remote-dotnet: false
+          remove-dotnet: false
 ```
 
 The full list of options can be found in the action.yml file, or paste below:
@@ -160,7 +160,7 @@ The full list of options can be found in the action.yml file, or paste below:
     required: false
     default: 'true'
   remove-mecab:
-    description: 'Removes /var/lib/mecab'
+    description: 'Removes /var/lib/mecab /usr/share/mecab'
     required: false
     default: 'true'
   remove-java:
@@ -179,12 +179,8 @@ The full list of options can be found in the action.yml file, or paste below:
     description: 'Removes /usr/share/icons'
     required: false
     default: 'true'
-  remove-c++:
+  remove-cplusplus:
     description: 'Removes /usr/include/c++'
-    required: false
-    default: 'true'
-  remove-mecab:
-    description: 'Removes /usr/share/mecab'
     required: false
     default: 'true'
   remove-ri:
