@@ -145,12 +145,8 @@ inputs:
     description: 'Removes /usr/share/icons'
     required: false
     default: 'true'
-  remove-c++:
+  remove-cplusplus:
     description: 'Removes /usr/include/c++'
-    required: false
-    default: 'true'
-  remove-mecab:
-    description: 'Removes /usr/share/mecab'
     required: false
     default: 'true'
   remove-ri:
@@ -326,6 +322,8 @@ runs:
         if [[ ${{ inputs.remove-mecab }} == 'true' ]]; then
           du -h -d 1 /var/lib/mecab
           sudo rm -rf /var/lib/mecab
+          du -h -d 1 /usr/share/mecab
+          sudo rm -rf /usr/share/mecab
         fi
         if [[ ${{ inputs.remove-java }} == 'true' ]]; then
           du -h -d 1 /usr/share/java
@@ -345,13 +343,9 @@ runs:
           du -h -d 1 /usr/share/icons
           sudo rm -rf /usr/share/icons
         fi
-        if [[ ${{ inputs.remove-c++ }} == 'true' ]]; then
+        if [[ ${{ inputs.remove-cplusplus }} == 'true' ]]; then
           du -h -d 1 /usr/include/c++
           sudo rm -rf /usr/include/c++
-        fi
-        if [[ ${{ inputs.remove-mecab }} == 'true' ]]; then
-          du -h -d 1 /usr/share/mecab
-          sudo rm -rf /usr/share/mecab
         fi
         if [[ ${{ inputs.remove-ri }} == 'true' ]]; then
           du -h -d 1 /usr/share/ri
